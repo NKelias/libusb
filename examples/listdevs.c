@@ -66,6 +66,19 @@ int main(void)
 	print_devs(devs);
 	libusb_free_device_list(devs, 1);
 
+    struct libusb_device_handle *devh = NULL;
+    int rc = 0;
+
+    // Open NK Storage
+    devh = libusb_open_device_with_vid_pid(NULL, 0x20a0, 0x4109);
+	if (!devh) {
+		fprintf(stderr, "Error finding USB device\n");
+	}
+
+	// Claim Interface 2
+    rc = libusb_claim_interface(devh, 2);
+    printf("Iface Result: %d\r\n", rc);
+
 	libusb_exit(NULL);
 	return 0;
 }
